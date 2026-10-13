@@ -1,6 +1,6 @@
 package software_development_CA;
 public class Cards {
-    private int denomination;
+    final private int denomination;
 
     Cards (int denomination) {
         this.denomination = denomination;

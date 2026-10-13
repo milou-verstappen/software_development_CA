@@ -12,13 +12,13 @@ public class CardDeck {
 
     public void addDeck(Cards card) {
         synchronized (card) {
-            deck.add(card);
+            this.deck.add(card);
         }
     }
 
     public void popDeck() {
-        synchronized (deck) {
-            deck.remove();
+        synchronized (this.deck) {
+            this.deck.remove();
         }
     }
 

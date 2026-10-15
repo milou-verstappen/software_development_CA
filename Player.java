@@ -19,16 +19,20 @@ public class Player {
     private static void chooseCard() {
         for (int i = 0; i < hand.size(); i++) {
             if (hand.get(i).getDenomination() != num) {
+                //implement lock
+                hand.get(i);
                 hand.remove(i);
                 break;
             }
         }
     }
 
-    public static void addCard(drawDeck drawDeck) {
-        synchronized (drawDeck) {
-            hand.add(drawDeck.getDeck().peek());
-            drawDeck.popDeck();
-        }
-    }
+    public static void drawCard(CardDeck drawDeck) {
+                synchronized (drawDeck) {
+                    hand.add(drawDeck.popDeck());
+                }
+            }
+
+    
+
 }

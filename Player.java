@@ -6,9 +6,9 @@ public class Player {
     private final int num;
     private final CardDeck drawDeck;
     private final CardDeck discardDeck;
-    private static List<Cards> hand = new ArrayList<>();
-    private static Cards lastDraw;
-    private static Cards lastDiscard;
+    private List<Cards> hand = new ArrayList<>();
+    private Cards lastDraw;
+    private Cards lastDiscard;
     volatile boolean hasWon = false;
 
 
@@ -18,7 +18,7 @@ public class Player {
         this.discardDeck = discardDeck;
     }
 
-    private static void chooseCard() {
+    private void chooseCard() {
         for (int i = 0; i < this.hand.size(); i++) {
             if (this.hand.get(i).getDenomination() != this.num) {
                 //implement lock
@@ -29,14 +29,18 @@ public class Player {
         }
     }
 
-    public static void drawCard(CardDeck drawDeck) {
+    public void drawCard(CardDeck drawDeck) {
                 synchronized (drawDeck) {
                     this.hand.add(drawDeck.popDeck());
                     this.lastDraw = this.hand.get(this.hand.size() - 1);
                 }
             }
 
-    private static void writeOutput() {
+    private void writeOutput() {
+        // create filename
+        StringBuilder filename = new StringBuilder();
+        filename.append("player").append(this.num).append("_output.txt");
+
         StringBuilder output = new StringBuilder();
         output.append("Player ").append(this.num);
         output.append(" draws ").append(this.lastDraw.getDenomination());

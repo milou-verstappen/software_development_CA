@@ -40,7 +40,7 @@ public class Player {
         StringBuilder output = new StringBuilder();
         output.append("Player ").append(this.num);
         output.append(" draws ").append(this.lastDraw.getDenomination());
-        output.append(" from deck ").append(this.drawDeck.getDeck().toString()); //give decks number
+        output.append(" from deck ").append(this.drawDeck.getDeckNum());
         System.out.println(output.toString().trim());
     }
 

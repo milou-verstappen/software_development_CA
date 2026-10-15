@@ -5,6 +5,15 @@ import java.util.Queue;
 
 public class CardDeck {
     private Queue<Cards> deck = new LinkedList<Cards>();
+    final private int deckNum;
+
+    public CardDeck(int deckNum) {
+        this.deckNum = deckNum;
+    }
+
+    public int getDeckNum() {
+        return this.deckNum;
+    }
 
     public Queue<Cards> getDeck() {
         return this.deck;

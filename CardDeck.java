@@ -16,9 +16,9 @@ public class CardDeck {
         }
     }
 
-    public void popDeck() {
+    public Cards popDeck() {
         synchronized (this.deck) {
-            this.deck.remove();
+            return this.deck.remove();
         }
     }
 

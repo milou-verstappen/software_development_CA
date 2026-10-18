@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Runnable{
     private final int num;
     private final CardDeck drawDeck;
     private final CardDeck discardDeck;
@@ -14,6 +14,7 @@ public class Player {
     private Cards lastDiscard;
     volatile boolean hasWon = false;
     private final String filename;
+    private int winner;
 
     public Player(int num, CardDeck drawDeck, CardDeck discardDeck) {
         this.num = num;
@@ -58,9 +59,12 @@ public class Player {
         output.append(" from deck ").append(this.drawDeck.getDeckNum()).append("\n");
         //more lines to the string 
         output.append("PLayer").append(this.num);
-        output.append("discards a").append(this.lastDiscard).append("to deck").append(this.discardDeck.getDeckNum());
-        output.append("Player ").append(this.num).append("current hand is ").append(this.hand.get(0).getDenomination()).append(this.hand.get(1).getDenomination()).append(this.hand.get(2).getDenomination()).append(this.hand.get(3).getDenomination());
-        
+        output.append("discards a").append(this.lastDiscard).append("to deck").append(this.discardDeck.getDeckNum()).append("\n");
+        output.append("Player ").append(this.num).append("current hand is ");
+        output.append(this.hand.get(0).getDenomination()).append(" ");
+        output.append(this.hand.get(1).getDenomination()).append(" ");
+        output.append(this.hand.get(2).getDenomination()).append(" ");
+        output.append(this.hand.get(3).getDenomination()).append("\n");
         try (PrintWriter file_write = new PrintWriter(filename)) {
             file_write.println(output);
         }
@@ -69,4 +73,44 @@ public class Player {
         }
     }
 
+    @Override
+    public void run() {
+        boolean checkWon = false;
+        while (!hasWon){
+            int lastcard = this.hand.get(0).getDenomination();
+            for (Cards card : this.hand) {
+                if (card.getDenomination() == lastcard) {
+                    checkWon = true;
+                    lastcard = card.getDenomination();
+                }
+                else {
+                    checkWon = false;
+                    break;
+                }
+            }
+            if (checkWon) {
+                hasWon = true;
+                winner = this.num;
+                System.out.println("Player " + this.num + " wins");
+            }
+            playerTurn();
+            writeOutput();
+        }
+        //final output
+        StringBuilder output = new StringBuilder();
+        output.append("Player ").append(winner).append("has informed Player ").append(this.num).append(" that they have won\n");
+        output.append("Player ").append(this.num).append(" exits\n");
+        output.append("Player ").append(this.num).append(" hand:");
+        output.append(this.hand.get(0).getDenomination()).append(" ");
+        output.append(this.hand.get(1).getDenomination()).append(" ");
+        output.append(this.hand.get(2).getDenomination()).append(" ");
+        output.append(this.hand.get(3).getDenomination());
+        
+        try (PrintWriter file_write = new PrintWriter(filename)) {
+            file_write.println(output);
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 }

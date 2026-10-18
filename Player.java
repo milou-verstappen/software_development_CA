@@ -24,6 +24,13 @@ public class Player {
         this.filename = filename_builder.toString();
     }
 
+    public void initialHand(Cards card1,Cards card2,Cards card3,Cards card4) {
+        this.hand.add(card1);
+        this.hand.add(card2);
+        this.hand.add(card3);
+        this.hand.add(card4);
+    }
+
     public void playerTurn() {
         synchronized (this.drawDeck) {
             synchronized (this.discardDeck) {

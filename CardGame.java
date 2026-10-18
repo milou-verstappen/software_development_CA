@@ -1,11 +1,10 @@
+package software_development_CA;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
-import Cards.Cards;
-import java.io.File;                  
-import java.io.FileNotFoundException; 
 import java.util.Scanner;
-
 
 public class CardGame {
     private static int numPlayers;
@@ -25,9 +24,9 @@ public class CardGame {
         // Read the file and add each card to the pack
         try (Scanner myReader = new Scanner(file)) {
             while (myReader.hasNextLine()) {
-                String card = myReader.nextLine();
+                int card = Integer.parseInt(myReader.nextLine()); //parseInt can produce an error to,account for that
 
-                if (int card <= 0 || int card > numPlayers) {
+                if (card <= 0 || card > numPlayers) {
                     System.out.println("Invalid card denomination: " + card);
                     pack.clear();
                     return false;
@@ -39,12 +38,13 @@ public class CardGame {
 
         // Catch the FileNotFoundException and print an error message
         catch (FileNotFoundException e) {
+            //more should be added here
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
 
         // Check if pack size is valid
-        if pack.size() != 8*numPlayers {
+        if (pack.size() != 8*numPlayers) {
             System.out.println("Invalid number of cards in the pack. Expected " + (8*numPlayers) + " but found " + pack.size());
             pack.clear();
             return false;
@@ -63,21 +63,45 @@ public class CardGame {
         }
         numPlayers = scanner.nextInt();
         scanner.close();
-    }
 
         System.out.println("Enter pack textfile: ");
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         String filename = scanner.next();
         boolean packbool = false;
         packbool = readPack(filename);
-        while (!scanner.hasNext() | !packbool) {
+        while (!scanner.hasNext() || !packbool) {
             System.out.println("Invalid input. Please enter a valid filename.");
             scanner.next(); // Clear the invalid input
             packbool = readPack(filename);
         }
         scanner.close();
+
+        List<CardDeck> decks = new ArrayList<>();
+        List<Player> players = new ArrayList<>();
+        for (int i =1; i <= numPlayers; i++) {
+            decks.add(new CardDeck(i));
+        }
+        int packInd = 0;
+        for (int i=1; i <= numPlayers;i++) {
+            if (i==numPlayers) {
+                players.add(new Player(i, decks.get(i-1), decks.get(0)));
+                players.get(i-1).initialHand(pack.get(packInd),pack.get(packInd+1),pack.get(packInd+2),pack.get(packInd+3));
+                packInd+=4;
+            }
+            else {
+                players.add(new Player(i, decks.get(i-1), decks.get(i)));
+                players.get(i-1).initialHand(pack.get(packInd),pack.get(packInd+1),pack.get(packInd+2),pack.get(packInd+3));
+                packInd += 4;
+        }
+        }
         
-    }
+        int curDeck = 1;
+        while (packInd <= pack.size()){
+            decks.get((curDeck%numPlayers)-1).addDeck(pack.get(packInd));
+            packInd++;
+        }
+        
+    } 
 
 
 }

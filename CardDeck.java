@@ -20,7 +20,7 @@ public class CardDeck {
     }
 
     public void addDeck(Cards card) {
-        synchronized (card) {
+        synchronized (this.deck) {
             this.deck.add(card);
         }
     }

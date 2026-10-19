@@ -102,7 +102,7 @@ public class CardGame {
             packInd++;
         }
 
-        private static List<Thread> playerThreads = new ArrayList<>();
+        List<Thread> playerThreads = new ArrayList<>();
         for (Player player : players) {
             Thread playerThread = new Thread(player);
             playerThreads.add(playerThread);
@@ -122,3 +122,4 @@ public class CardGame {
         }
 
     }
+}

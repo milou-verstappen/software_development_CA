@@ -59,7 +59,7 @@ public class Player implements Runnable{
         output.append(" from deck ").append(this.drawDeck.getDeckNum()).append("\n");
         //more lines to the string 
         output.append("PLayer").append(this.num);
-        output.append("discards a").append(this.lastDiscard).append("to deck").append(this.discardDeck.getDeckNum()).append("\n");
+        output.append("discards a").append(this.lastDiscard.getDenomination()).append("to deck").append(this.discardDeck.getDeckNum()).append("\n");
         output.append("Player ").append(this.num).append("current hand is ");
         output.append(this.hand.get(0).getDenomination()).append(" ");
         output.append(this.hand.get(1).getDenomination()).append(" ");
@@ -92,6 +92,7 @@ public class Player implements Runnable{
                 hasWon = true;
                 winner = this.num;
                 System.out.println("Player " + this.num + " wins");
+                break;
             }
             playerTurn();
             writeOutput();

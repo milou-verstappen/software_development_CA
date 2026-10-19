@@ -9,7 +9,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.List;
-
+import java.lang.reflect.Method;
 
 public class testCardGame {
     @BeforeEach
@@ -100,5 +100,37 @@ public class testCardGame {
         assertFalse(fileContent.contains("Player 1 discards"));
     }
 
-    
+    private boolean useReadPack(int numPlayers,String filename) throws Exception {
+        Field numPlayersField = CardGame.class.getDeclaredField("numPlayers");
+        numPlayersField.setAccessible(true);
+        numPlayersField.set(null, numPlayers);
+        Method readPackMethod = CardGame.class.getDeclaredMethod("readPack", String.class);
+        readPackMethod.setAccessible(true);
+        return (boolean) readPackMethod.invoke(null, filename);
+    }
+
+    @Test
+    public void testReadValidPack() throws Exception{
+        assertTrue(useReadPack(3, "software_development_CA\\software_development_CA\\test_packs\\validPack.txt"));
+    }
+
+    @Test
+    public void testInvalidPackCardCount() throws Exception{
+        assertFalse(useReadPack(2, "software_development_CA\\software_development_CA\\test_packs\\invalidPack.txt"));
+    }
+
+    @Test
+    public void testNegativeCardInPack() throws Exception{
+        assertFalse(useReadPack(2, "software_development_CA\\software_development_CA\\test_packs\\negativeInPack.txt"));
+    }
+
+    @Test
+    public void testBigCardInPack() throws Exception{
+        assertFalse(useReadPack(2, "software_development_CA\\software_development_CA\\test_packs\\bigInPack.txt"));
+    }
+
+    @Test
+    public void testNoPackFile() throws Exception{
+        assertFalse(useReadPack(10, "software_development_CA\\software_development_CA\\test_packs\\nonexistantpack.txt"));
+    }
 }

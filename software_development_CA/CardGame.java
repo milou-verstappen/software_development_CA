@@ -62,10 +62,10 @@ public class CardGame {
             scanner.next(); // Clear the invalid input
         }
         numPlayers = scanner.nextInt();
-        scanner.close();
+        //scanner.close();
 
         System.out.println("Enter pack textfile: ");
-        scanner = new Scanner(System.in);
+        //scanner = new Scanner(System.in);
         String filename = scanner.next();
         boolean packbool = false;
         packbool = readPack(filename);

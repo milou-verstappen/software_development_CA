@@ -1,0 +1,3 @@
+Player 0has informed Player 2 that they have won
+Player 2 exits
+Player 2 hand:2 2 4 4

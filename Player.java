@@ -79,7 +79,7 @@ public class Player implements Runnable{
         while (!hasWon){
             int lastcard = this.hand.get(0).getDenomination();
             for (Cards card : this.hand) {
-                if (card.getDenomination() == lastcard) {
+                if (card.getDenomination() == lastcard) { // does not check if the player has won, but checks if all cards in hand are the same
                     checkWon = true;
                     lastcard = card.getDenomination();
                 }
@@ -88,7 +88,7 @@ public class Player implements Runnable{
                     break;
                 }
             }
-            if (checkWon) {
+            if (checkWon) { // should notify other players 
                 hasWon = true;
                 winner = this.num;
                 System.out.println("Player " + this.num + " wins");

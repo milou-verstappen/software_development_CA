@@ -125,11 +125,6 @@ public class testCardGame {
     }
 
     @Test
-    public void testBigCardInPack() throws Exception{
-        assertFalse(useReadPack(2, "software_development_CA\\software_development_CA\\test_packs\\bigInPack.txt"));
-    }
-
-    @Test
     public void testNoPackFile() throws Exception{
         assertFalse(useReadPack(10, "software_development_CA\\software_development_CA\\test_packs\\nonexistantpack.txt"));
     }

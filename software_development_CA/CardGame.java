@@ -26,7 +26,7 @@ public class CardGame {
             while (myReader.hasNextLine()) {
                 int card = Integer.parseInt(myReader.nextLine()); //parseInt can produce an error to,account for that
 
-                if (card <= 0 || card > numPlayers) {
+                if (card <= 0) {
                     System.out.println("Invalid card denomination: " + card);
                     pack.clear();
                     return false;

@@ -102,7 +102,23 @@ public class CardGame {
             packInd++;
         }
 
-    } 
+        private static List<Thread> playerThreads = new ArrayList<>();
+        for (Player player : players) {
+            Thread playerThread = new Thread(player);
+            playerThreads.add(playerThread);
+            playerThread.start();
+        }    
+        
+        while (!Player.getHasWon()) {
+                ;
+            }
 
+        for (Thread playerThread : playerThreads) {
+            try {
+                playerThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
-}
+    }

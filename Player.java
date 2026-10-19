@@ -12,7 +12,7 @@ public class Player implements Runnable{
     private List<Cards> hand = new ArrayList<>();
     private Cards lastDraw;
     private Cards lastDiscard;
-    volatile boolean hasWon = false;
+    volatile static boolean hasWon = false;
     private final String filename;
     private int winner;
 
@@ -30,6 +30,10 @@ public class Player implements Runnable{
         this.hand.add(card2);
         this.hand.add(card3);
         this.hand.add(card4);
+    }
+
+    public static boolean getHasWon() {
+        return hasWon;
     }
 
     public void playerTurn() {
@@ -79,7 +83,7 @@ public class Player implements Runnable{
         while (!hasWon){
             int lastcard = this.hand.get(0).getDenomination();
             for (Cards card : this.hand) {
-                if (card.getDenomination() == lastcard) { // does not check if the player has won, but checks if all cards in hand are the same
+                if (card.getDenomination() == lastcard) {
                     checkWon = true;
                     lastcard = card.getDenomination();
                 }
@@ -88,7 +92,7 @@ public class Player implements Runnable{
                     break;
                 }
             }
-            if (checkWon) { // should notify other players 
+            if (checkWon) {
                 hasWon = true;
                 winner = this.num;
                 System.out.println("Player " + this.num + " wins");

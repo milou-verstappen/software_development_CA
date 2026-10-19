@@ -62,16 +62,17 @@ public class CardGame {
             scanner.next(); // Clear the invalid input
         }
         numPlayers = scanner.nextInt();
-        //scanner.close();
+        
+        scanner.nextLine();
 
         System.out.println("Enter pack textfile: ");
-        //scanner = new Scanner(System.in);
-        String filename = scanner.next();
+        
+        String filename = scanner.nextLine();
         boolean packbool = false;
         packbool = readPack(filename);
-        while (!scanner.hasNext() || !packbool) {
+        while (!packbool) {
             System.out.println("Invalid input. Please enter a valid filename.");
-            scanner.next(); // Clear the invalid input
+            scanner.nextLine(); // Clear the invalid input
             packbool = readPack(filename);
         }
         scanner.close();
@@ -119,6 +120,9 @@ public class CardGame {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+        for (CardDeck deck : decks) {
+           deck.finalOutput();
         }
 
     }

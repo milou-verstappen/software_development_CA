@@ -1,5 +1,6 @@
 package software_development_CA;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Player implements Runnable{
     private Cards lastDiscard;
     volatile static boolean hasWon = false;
     private final String filename;
-    private int winner;
+    private static int winner;
 
     public Player(int num, CardDeck drawDeck, CardDeck discardDeck) {
         this.num = num;
@@ -30,6 +31,19 @@ public class Player implements Runnable{
         this.hand.add(card2);
         this.hand.add(card3);
         this.hand.add(card4);
+        StringBuilder output = new StringBuilder();
+        output.append("Initial hand:");
+        output.append(this.hand.get(0).getDenomination()).append(" ");
+        output.append(this.hand.get(1).getDenomination()).append(" ");
+        output.append(this.hand.get(2).getDenomination()).append(" ");
+        output.append(this.hand.get(3).getDenomination()).append("\n");
+        
+        try (PrintWriter file_write = new PrintWriter(filename)) {
+            file_write.println(output);
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
     }
 
     public static boolean getHasWon() {
@@ -62,14 +76,14 @@ public class Player implements Runnable{
         output.append(" draws ").append(this.lastDraw.getDenomination());
         output.append(" from deck ").append(this.drawDeck.getDeckNum()).append("\n");
         //more lines to the string 
-        output.append("PLayer").append(this.num);
-        output.append("discards a").append(this.lastDiscard.getDenomination()).append("to deck").append(this.discardDeck.getDeckNum()).append("\n");
-        output.append("Player ").append(this.num).append("current hand is ");
+        output.append("PLayer ").append(this.num);
+        output.append(" discards a ").append(this.lastDiscard.getDenomination()).append(" to deck ").append(this.discardDeck.getDeckNum()).append("\n");
+        output.append("Player ").append(this.num).append(" current hand is ");
         output.append(this.hand.get(0).getDenomination()).append(" ");
         output.append(this.hand.get(1).getDenomination()).append(" ");
         output.append(this.hand.get(2).getDenomination()).append(" ");
         output.append(this.hand.get(3).getDenomination()).append("\n");
-        try (PrintWriter file_write = new PrintWriter(filename)) {
+        try (PrintWriter file_write = new PrintWriter(new FileWriter(filename,true))) {
             file_write.println(output);
         }
         catch (IOException e) {
@@ -103,19 +117,25 @@ public class Player implements Runnable{
         }
         //final output
         StringBuilder output = new StringBuilder();
-        output.append("Player ").append(winner).append("has informed Player ").append(this.num).append(" that they have won\n");
+        if (winner == this.num){
+            output.append("Player ").append(this.num).append(" wins\n");
+            
+        }
+        else {
+            output.append("Player ").append(winner).append(" has informed Player ").append(this.num).append(" that they have won\n");
+        }
         output.append("Player ").append(this.num).append(" exits\n");
         output.append("Player ").append(this.num).append(" hand:");
         output.append(this.hand.get(0).getDenomination()).append(" ");
         output.append(this.hand.get(1).getDenomination()).append(" ");
         output.append(this.hand.get(2).getDenomination()).append(" ");
         output.append(this.hand.get(3).getDenomination());
-        
-        try (PrintWriter file_write = new PrintWriter(filename)) {
+        try (PrintWriter file_write = new PrintWriter(new FileWriter(filename,true))) {
             file_write.println(output);
         }
         catch (IOException e) {
             System.out.println(e);
         }
+        
     }
 }

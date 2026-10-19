@@ -95,12 +95,13 @@ public class CardGame {
         }
         }
         
-        int curDeck = 1;
-        while (packInd <= pack.size()){
-            decks.get((curDeck%numPlayers)-1).addDeck(pack.get(packInd));
+        int deckSelection = 0;
+        while (packInd < pack.size()){
+            decks.get(deckSelection%numPlayers).addDeck(pack.get(packInd));
+            deckSelection++;
             packInd++;
         }
-        
+
     } 
 
 

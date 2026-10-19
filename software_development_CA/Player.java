@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+// runnable class for each player
 public class Player implements Runnable{
     private final int num;
     private final CardDeck drawDeck;
@@ -17,6 +18,7 @@ public class Player implements Runnable{
     private final String filename;
     private static int winner;
 
+    //constructor
     public Player(int num, CardDeck drawDeck, CardDeck discardDeck) {
         this.num = num;
         this.drawDeck = drawDeck;
@@ -26,6 +28,7 @@ public class Player implements Runnable{
         this.filename = filename_builder.toString();
     }
 
+    // initialize hand with 4 cards and write it to a file
     public void initialHand(Cards card1,Cards card2,Cards card3,Cards card4) {
         this.hand.add(card1);
         this.hand.add(card2);
@@ -50,6 +53,7 @@ public class Player implements Runnable{
         return hasWon;
     }
 
+    //synchronize draw and discard to avoid race conditions
     public void playerTurn() {
         synchronized (this.drawDeck) {
             synchronized (this.discardDeck) {

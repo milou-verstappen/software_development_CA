@@ -7,10 +7,12 @@ import java.util.Queue;
 
 
 public class CardDeck {
+    // initalize, deck is a queue to ensure FIFO
     private Queue<Cards> deck = new LinkedList<Cards>();
     final private int deckNum;
     final private String filename;
 
+    //constructor
     public CardDeck(int deckNum) {
         this.deckNum = deckNum;
         StringBuilder deck_file_builder = new StringBuilder();
@@ -18,6 +20,7 @@ public class CardDeck {
         this.filename= deck_file_builder.toString();
     }
 
+    // getter methods
     public int getDeckNum() {
         return this.deckNum;
     }
@@ -38,6 +41,7 @@ public class CardDeck {
         }
     }
 
+    // method to print the contents of the deck to a file
     public void finalOutput() {
         StringBuilder output = new StringBuilder();
         StringBuilder initial_text = new StringBuilder();
